@@ -1,44 +1,56 @@
-import { Link, Outlet, useLocation } from '@tanstack/react-router';
+import { useState, useEffect } from 'react';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { Outlet, useLocation, useRouteContext } from '@tanstack/react-router';
+import { ModalContext } from '../../context/modal-context';
 import { cn } from '../../lib/tailwind.utils';
-import { HeaderLogo } from './HeaderLogo';
+import { AboutModal } from './AboutModal';
+import { Header } from './Header';
 
 export const AppLayout = () => {
   const pathname = useLocation({
     select: (location) => location.pathname,
   });
+  const getInformationQuery = useRouteContext({
+    from: '/_layout',
+    select: (context) => context.getInformationQuery,
+  });
+  const { data: information } = useSuspenseQuery(getInformationQuery);
 
-  const isReducedLogo = pathname.includes('work');
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+
+  const isReducedLogo = isAboutModalOpen ? false : pathname.includes('work');
+
+  const toggleAboutModal = () => {
+    setIsAboutModalOpen((prevIsAboutModalOpen) => !prevIsAboutModalOpen);
+  };
+
+  useEffect(() => {
+    setIsAboutModalOpen(false);
+  }, [pathname]);
 
   return (
     <>
-      <div className="fixed z-50 flex w-full flex-col gap-8">
-        <header
-          className={cn(
-            'flex flex-col items-center justify-between gap-8 pt-16',
-            isReducedLogo && 'flex-row',
-          )}
-        >
-          <div
-            className={cn(
-              'pointer-events-none order-last w-full',
-              isReducedLogo && 'relative order-first flex h-6 items-center',
-            )}
-          >
-            <HeaderLogo className={cn(isReducedLogo && 'absolute w-[50rem]')} />
-          </div>
-          <nav className="self-end px-12">
-            <ul className="flex gap-4 font-secondary uppercase">
-              <li>
-                <Link to="/">Gallery</Link>
-              </li>
-              <li>
-                <Link to="/work">Work</Link>
-              </li>
-            </ul>
-          </nav>
-        </header>
+      <div
+        className={cn(
+          'pointer-events-none fixed z-50 flex w-full flex-col gap-8',
+          isAboutModalOpen && 'bg-secondary/75 backdrop-blur-md',
+        )}
+      >
+        <Header
+          isReducedLogo={isReducedLogo}
+          toggleAboutModal={toggleAboutModal}
+        />
+        {isAboutModalOpen && (
+          <AboutModal
+            {...information}
+            isOpen={isAboutModalOpen}
+            setIsOpen={setIsAboutModalOpen}
+          />
+        )}
       </div>
-      <Outlet />
+      <ModalContext.Provider value={{ isOpen: isAboutModalOpen }}>
+        <Outlet />
+      </ModalContext.Provider>
     </>
   );
 };
