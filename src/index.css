@@ -6,7 +6,11 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    @apply overscroll-none;
+  }
+
   body {
-    @apply font-primary bg-neutral-100;
+    @apply overscroll-none bg-primary font-primary;
   }
 }

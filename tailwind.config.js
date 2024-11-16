@@ -8,6 +8,10 @@ export default {
         primary: ['Manrope', 'sans-serif'],
         secondary: ['"Share Tech Mono"', 'monospace'],
       },
+      colors: {
+        primary: '#f5f5f5',
+        secondary: '#e8e6e6bf',
+      },
     },
   },
   plugins: [],
