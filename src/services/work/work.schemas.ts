@@ -21,3 +21,17 @@ export const homeWorkSchema = z.object({
     }),
   ),
 });
+
+export const workSchema = z.object({
+  projects: z.array(
+    baseProjectSchema.extend({
+      cover: z.object({
+        imageUrl: z.string(),
+        size: z.object({
+          height: z.number(),
+          aspectRatio: z.number(),
+        }),
+      }),
+    }),
+  ),
+});

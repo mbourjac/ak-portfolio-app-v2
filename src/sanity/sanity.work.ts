@@ -2,20 +2,32 @@ import groq from 'groq';
 import { SanityRepository } from './sanity.repository';
 
 export class SanityWorkRepository extends SanityRepository {
-  type = 'work';
+  protected readonly type = 'work';
 
-  getHomeWorkProjection = () => groq`{
+  private readonly projectInfoFragment = groq`
+  "id": _id,
+  title,
+  "slug": slug.current,
+  date,
+  medium
+`;
+
+  private readonly coverVideoFragment = groq`
+  defined(video) => {
+    "videoUrl": video.asset->url
+  }
+`;
+
+  private readonly coverAspectRatioFragment = groq`
+  "aspectRatio": cover.image.asset->metadata.dimensions.aspectRatio
+`;
+
+  private readonly getHomeWorkProjection = () => groq`{
     "projects": projects[]-> {
-      "id": _id,
-      title,
-      "slug": slug.current,
-      date,
-      medium,
+      ${this.projectInfoFragment},
       "cover": {
+        ${this.coverVideoFragment},
         "imageUrl": cover.image.asset->url + "?w=" + string(round(${window.innerWidth} / 100 * cover.width * 2)),
-        defined(video) => {
-          "videoUrl": video.asset->url
-        },
         "position": {
           "top": cover.position.top,
           "left": cover.position.left,
@@ -23,7 +35,21 @@ export class SanityWorkRepository extends SanityRepository {
         },      
         "size": {
           "width": cover.width,
-          "aspectRatio": cover.image.asset->metadata.dimensions.aspectRatio,
+          ${this.coverAspectRatioFragment},
+        }
+      }
+    },
+  }`;
+
+  private readonly getWorkProjection = () => groq`{
+    "projects": projects[]-> {
+      ${this.projectInfoFragment},
+      "cover": {
+        ${this.coverVideoFragment},
+        "imageUrl": cover.image.asset->url + "?h=" + string(round((${window.innerHeight} - 150) / 100 * cover.height * 2)),  
+        "size": {
+          "height": cover.height,
+          ${this.coverAspectRatioFragment},
         }
       }
     },
@@ -31,5 +57,9 @@ export class SanityWorkRepository extends SanityRepository {
 
   getHomeWork = async () => {
     return this.getSingletonDocument(this.getHomeWorkProjection);
+  };
+
+  getWork = async () => {
+    return this.getSingletonDocument(this.getWorkProjection);
   };
 }
