@@ -11,9 +11,11 @@ export class SanityProjectRepository extends SanityRepository {
     date,
     medium,
     description,
-    "images": images[] {
-      "imageUrl": asset->url + "?h=" + string(round(${window.innerHeight} * 2)),
-      "aspectRatio": asset->metadata.dimensions.aspectRatio,
+    "gallery": gallery[] {
+      "type": _type,
+      "filename": asset->originalFilename,
+      "url": asset->url + "?h=" + string(round(${window.innerHeight} * 2)),
+      "aspectRatio": coalesce(asset->metadata.dimensions.aspectRatio, 16/9),
       defined(alt) => {alt},
     },
   }`;

@@ -8,13 +8,15 @@ export const baseProjectSchema = z.object({
   medium: z.string(),
 });
 
-export const projectImageSchema = z.object({
-  imageUrl: z.string(),
+export const projectFileSchema = z.object({
+  type: z.union([z.literal('image'), z.literal('video')]),
+  filename: z.string(),
+  url: z.string(),
   alt: z.string().optional(),
   aspectRatio: z.number(),
 });
 
 export const projectSchema = baseProjectSchema.extend({
   description: z.string(),
-  images: z.array(projectImageSchema),
+  gallery: z.array(projectFileSchema),
 });

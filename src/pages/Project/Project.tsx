@@ -10,7 +10,7 @@ export const Project = () => {
     select: (context) => context.getProjectQuery,
   });
   const {
-    data: { images, title, date, medium, description },
+    data: { gallery, title, date, medium, description },
   } = useSuspenseQuery(getProjectQuery);
 
   const {
@@ -34,7 +34,7 @@ export const Project = () => {
           ref={galleryRef}
           style={{ x: galleryX }}
         >
-          {images.map(({ imageUrl, aspectRatio }, index) => (
+          {gallery.map(({ type, filename, url, aspectRatio }, index) => (
             <div
               key={index}
               style={{
@@ -42,7 +42,16 @@ export const Project = () => {
                 aspectRatio,
               }}
             >
-              <img src={imageUrl} alt="" />
+              {
+                type === 'image' ?
+                  <img src={url} alt="" />
+                  // eslint-disable-next-line jsx-a11y/media-has-caption
+                : <video controls className="h-full">
+                    <source src={`/${filename}`} type="video/mp4" />
+                    Your browser does not support the video.
+                  </video>
+
+              }
             </div>
           ))}
         </motion.div>
