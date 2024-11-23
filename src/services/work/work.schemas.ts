@@ -3,6 +3,7 @@ import { baseProjectSchema } from '../project/project.schemas';
 
 export const homeCoverSchema = z.object({
   imageUrl: z.string(),
+  videoFilename: z.string().optional(),
   position: z.object({
     top: z.number(),
     left: z.number(),

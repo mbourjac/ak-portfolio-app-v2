@@ -16,6 +16,7 @@ export const HomeCover = ({
   medium,
   cover: {
     imageUrl,
+    videoFilename,
     position: { top, left, zIndex },
     size: { width, aspectRatio },
   },
@@ -40,11 +41,24 @@ export const HomeCover = ({
           className="relative hover:cursor-none"
           params={{ projectSlug: slug }}
         >
-          <motion.img
-            src={imageUrl}
-            alt={title}
-            whileHover={{ filter: 'blur(6px)', opacity: 0.8 }}
-          />
+          {videoFilename ?
+            // eslint-disable-next-line jsx-a11y/media-has-caption
+            <motion.video
+              muted
+              loop
+              autoPlay
+              className="h-full"
+              whileHover={{ filter: 'blur(6px)', opacity: 0.8 }}
+            >
+              <source src={`/${videoFilename}`} type="video/mp4" />
+              Your browser does not support HTML5 video.
+            </motion.video>
+          : <motion.img
+              src={imageUrl}
+              alt={title}
+              whileHover={{ filter: 'blur(6px)', opacity: 0.8 }}
+            />
+          }
         </Link>
       </motion.div>
       {showInfo && (

@@ -13,8 +13,8 @@ export class SanityWorkRepository extends SanityRepository {
 `;
 
   private readonly coverVideoFragment = groq`
-  defined(video) => {
-    "videoUrl": video.asset->url
+  defined(cover.video) => {
+    "videoFilename": cover.video.asset->originalFilename
   }
 `;
 

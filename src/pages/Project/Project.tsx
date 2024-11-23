@@ -48,7 +48,7 @@ export const Project = () => {
                   // eslint-disable-next-line jsx-a11y/media-has-caption
                 : <video controls className="h-full">
                     <source src={`/${filename}`} type="video/mp4" />
-                    Your browser does not support the video.
+                    Your browser does not support HTML5 video.
                   </video>
 
               }
