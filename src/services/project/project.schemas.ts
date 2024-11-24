@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const baseProjectSchema = z.object({
   id: z.string(),
   title: z.string(),
+  svgTitle: z.string(),
   slug: z.string(),
   date: z.string(),
   medium: z.string(),

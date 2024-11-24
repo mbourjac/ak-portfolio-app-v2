@@ -27,6 +27,7 @@ export const DesktopProjects = ({ projects }: DesktopProjectsProps) => {
             ({
               id,
               slug,
+              svgTitle,
               title,
               cover: {
                 desktopUrl,
@@ -43,7 +44,9 @@ export const DesktopProjects = ({ projects }: DesktopProjectsProps) => {
                   aspectRatio,
                 }}
               >
-                <h2>{title}</h2>
+                <h2>
+                  <img src={svgTitle} alt={title} className="h-6" />
+                </h2>
                 <img src={desktopUrl} alt={title} />
               </Link>
             ),

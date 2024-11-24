@@ -8,6 +8,7 @@ export class SanityProjectRepository extends SanityRepository {
     "id": _id,
     "slug": slug.current,
     title,
+    "svgTitle": svgTitle.asset->url,
     date,
     medium,
     description,

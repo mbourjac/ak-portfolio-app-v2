@@ -13,6 +13,7 @@ type HomeCoverProps = BaseProject & {
 export const HomeCover = ({
   slug,
   title,
+  svgTitle,
   date,
   medium,
   cover: {
@@ -35,6 +36,8 @@ export const HomeCover = ({
           left: `${String(isVerticalDevice ? mobilePosition.left : desktopPosition.left)}%`,
           top: `${String(isVerticalDevice ? mobilePosition.top : desktopPosition.top)}%`,
           width: `${String(isVerticalDevice ? mobileWidth : desktopWidth)}%`,
+          zIndex:
+            isVerticalDevice ? mobilePosition.zIndex : desktopPosition.zIndex,
           aspectRatio,
         }}
         onHoverStart={() => setShowInfo(true)}
@@ -68,6 +71,7 @@ export const HomeCover = ({
       {showInfo && (
         <HomeCoverInfo
           title={title}
+          svgTitle={svgTitle}
           date={date}
           medium={medium}
           zIndex={

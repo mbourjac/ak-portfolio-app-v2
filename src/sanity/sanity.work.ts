@@ -7,6 +7,7 @@ export class SanityWorkRepository extends SanityRepository {
   private readonly projectInfoFragment = groq`
   "id": _id,
   title,
+  "svgTitle": svgTitle.asset->url,
   "slug": slug.current,
   date,
   medium
