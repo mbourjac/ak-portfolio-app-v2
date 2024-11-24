@@ -33,7 +33,8 @@ export const AppLayout = () => {
       <div
         className={cn(
           'pointer-events-none fixed z-50 flex w-full flex-col gap-8',
-          isAboutModalOpen && 'bg-secondary/75 backdrop-blur-md',
+          isAboutModalOpen &&
+            'h-dvh bg-secondary/75 backdrop-blur-md md:h-auto',
         )}
       >
         <Header

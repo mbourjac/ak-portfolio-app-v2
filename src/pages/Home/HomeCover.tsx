@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
+import { useMediaQuery } from '../../hooks/use-media-query';
 import type { BaseProject } from '../../services/project/project.types';
 import type { HomeCover as HomeCoverType } from '../../services/work/work.types';
 import { HomeCoverInfo } from './HomeCoverInfo';
@@ -15,12 +16,15 @@ export const HomeCover = ({
   date,
   medium,
   cover: {
-    imageUrl,
+    desktopUrl,
+    mobileUrl,
     videoFilename,
-    position: { top, left, zIndex },
-    size: { width, aspectRatio },
+    desktopPosition,
+    mobilePosition,
+    size: { desktopWidth, mobileWidth, aspectRatio },
   },
 }: HomeCoverProps) => {
+  const isVerticalDevice = useMediaQuery(`(orientation: portrait)`);
   const [showInfo, setShowInfo] = useState(false);
 
   return (
@@ -28,9 +32,9 @@ export const HomeCover = ({
       <motion.div
         className="absolute w-fit"
         style={{
-          left: `${String(left)}%`,
-          top: `${String(top)}%`,
-          width: `${String(width)}%`,
+          left: `${String(isVerticalDevice ? mobilePosition.left : desktopPosition.left)}%`,
+          top: `${String(isVerticalDevice ? mobilePosition.top : desktopPosition.top)}%`,
+          width: `${String(isVerticalDevice ? mobileWidth : desktopWidth)}%`,
           aspectRatio,
         }}
         onHoverStart={() => setShowInfo(true)}
@@ -54,7 +58,7 @@ export const HomeCover = ({
               Your browser does not support HTML5 video.
             </motion.video>
           : <motion.img
-              src={imageUrl}
+              src={isVerticalDevice ? mobileUrl : desktopUrl}
               alt={title}
               whileHover={{ filter: 'blur(6px)', opacity: 0.8 }}
             />
@@ -66,7 +70,9 @@ export const HomeCover = ({
           title={title}
           date={date}
           medium={medium}
-          zIndex={zIndex}
+          zIndex={
+            isVerticalDevice ? mobilePosition.zIndex : desktopPosition.zIndex
+          }
         />
       )}
     </>

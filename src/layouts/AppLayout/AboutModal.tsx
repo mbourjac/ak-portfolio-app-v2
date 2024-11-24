@@ -28,9 +28,11 @@ export const AboutModal = ({
   }, [isOpen]);
 
   return (
-    <div className="pointer-events-auto grid h-60 grid-cols-2 gap-32 overflow-hidden px-12 font-secondary text-sm">
-      <div className="overflow-y-auto py-4">{formatText(bio)}</div>
-      <div className="flex justify-between uppercase">
+    <div className="pointer-events-auto grid gap-8 overflow-hidden font-secondary text-sm md:h-60 md:grid-cols-2 md:gap-0 xl:gap-32">
+      <div className="overflow-y-auto px-6 py-4 md:px-12">
+        {formatText(bio)}
+      </div>
+      <div className="flex justify-between px-6 uppercase md:px-12">
         <div className="flex gap-20">
           <div className="self-end py-4">
             <div className="flex flex-col gap-4">
@@ -48,9 +50,10 @@ export const AboutModal = ({
                   {instagram.label}
                 </a>
               </div>
+              <p className="2xl:hidden">{copyright}</p>
             </div>
           </div>
-          <p className="self-end py-4">{copyright}</p>
+          <p className="hidden self-end py-4 2xl:block">{copyright}</p>
         </div>
         <button
           onClick={() => setIsOpen(false)}

@@ -14,7 +14,8 @@ export class SanityProjectRepository extends SanityRepository {
     "gallery": gallery[] {
       "type": _type,
       "filename": asset->originalFilename,
-      "url": asset->url + "?h=" + string(round(${window.innerHeight} * 2)),
+      "desktopUrl": asset->url + "?h=" + string(round(${window.innerHeight} * 2)),
+      "mobileUrl": asset->url + "?w=" + string(round(${window.innerWidth} * 2)),
       "aspectRatio": coalesce(asset->metadata.dimensions.aspectRatio, 16/9),
       defined(alt) => {alt},
     },

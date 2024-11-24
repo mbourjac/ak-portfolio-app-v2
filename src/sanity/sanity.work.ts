@@ -27,14 +27,21 @@ export class SanityWorkRepository extends SanityRepository {
       ${this.projectInfoFragment},
       "cover": {
         ${this.coverVideoFragment},
-        "imageUrl": cover.image.asset->url + "?w=" + string(round(${window.innerWidth} / 100 * cover.width * 2)),
-        "position": {
-          "top": cover.position.top,
-          "left": cover.position.left,
-          "zIndex": cover.position.zIndex,
+        "desktopUrl": cover.image.asset->url + "?w=" + string(round(${window.innerWidth} / 100 * cover.desktopWidth * 2)),
+        "mobileUrl": cover.image.asset->url + "?w=" + string(round(${window.innerWidth} / 100 * cover.mobileWidth * 2)),
+        "desktopPosition": {
+          "top": cover.desktopPosition.top,
+          "left": cover.desktopPosition.left,
+          "zIndex": cover.desktopPosition.zIndex,
+        },  
+        "mobilePosition": {
+          "top": cover.mobilePosition.top,
+          "left": cover.mobilePosition.left,
+          "zIndex": cover.mobilePosition.zIndex,
         },      
         "size": {
-          "width": cover.width,
+          "desktopWidth": cover.desktopWidth,
+          "mobileWidth": cover.mobileWidth,
           ${this.coverAspectRatioFragment},
         }
       }
@@ -46,7 +53,8 @@ export class SanityWorkRepository extends SanityRepository {
       ${this.projectInfoFragment},
       "cover": {
         ${this.coverVideoFragment},
-        "imageUrl": cover.image.asset->url + "?h=" + string(round((${window.innerHeight} - 150) / 100 * cover.height * 2)),  
+        "desktopUrl": cover.image.asset->url + "?h=" + string(round((${window.innerHeight} - 150) / 100 * cover.height * 2)),  
+        "mobileUrl": cover.image.asset->url + "?w=" + string(round(${window.innerWidth} * 2)),
         "size": {
           "height": cover.height,
           ${this.coverAspectRatioFragment},

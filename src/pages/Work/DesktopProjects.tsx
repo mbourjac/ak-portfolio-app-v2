@@ -1,17 +1,13 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { Link, useRouteContext } from '@tanstack/react-router';
+import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import { useVerticalScroll } from '../hooks/use-vertical-scroll';
+import { useVerticalScroll } from '../../hooks/use-vertical-scroll';
+import type { WorkProject } from '../../services/work/work.types';
 
-export const Work = () => {
-  const getWorkQuery = useRouteContext({
-    from: '/_layout/work/',
-    select: (context) => context.getWorkQuery,
-  });
-  const {
-    data: { projects },
-  } = useSuspenseQuery(getWorkQuery);
+type DesktopProjectsProps = {
+  projects: WorkProject[];
+};
 
+export const DesktopProjects = ({ projects }: DesktopProjectsProps) => {
   const {
     containerRef,
     elementRef: galleryRef,
@@ -33,7 +29,7 @@ export const Work = () => {
               slug,
               title,
               cover: {
-                imageUrl,
+                desktopUrl,
                 size: { height, aspectRatio },
               },
             }) => (
@@ -48,7 +44,7 @@ export const Work = () => {
                 }}
               >
                 <h2>{title}</h2>
-                <img src={imageUrl} alt={title} />
+                <img src={desktopUrl} alt={title} />
               </Link>
             ),
           )}

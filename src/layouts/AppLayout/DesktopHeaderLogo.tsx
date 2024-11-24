@@ -1,13 +1,13 @@
 import { cn } from '../../lib/tailwind.utils';
 
-type HeaderLogoProps = {
+type DesktopHeaderLogoProps = {
   className?: string;
 };
 
-export const HeaderLogo = ({ className }: HeaderLogoProps) => {
+export const DesktopHeaderLogo = ({ className }: DesktopHeaderLogoProps) => {
   return (
     <svg
-      className={cn('h-auto w-full px-12', className)}
+      className={cn('h-auto w-full px-6 md:px-12', className)}
       viewBox="0 0 1349 167"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

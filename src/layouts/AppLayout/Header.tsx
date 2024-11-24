@@ -1,6 +1,9 @@
 import { Link } from '@tanstack/react-router';
+import { useSmallDevice } from '../../hooks/use-small-device';
 import { cn } from '../../lib/tailwind.utils';
-import { HeaderLogo } from './HeaderLogo';
+import { DesktopHeaderLogo } from './DesktopHeaderLogo';
+import { MobileHeaderLogo } from './MobileHeaderLogo';
+``;
 
 type HeaderProps = {
   isReducedLogo: boolean;
@@ -8,23 +11,33 @@ type HeaderProps = {
 };
 
 export const Header = ({ isReducedLogo, toggleAboutModal }: HeaderProps) => {
+  const isSmallDevice = useSmallDevice();
+
   return (
     <header
       className={cn(
-        'flex flex-col items-center justify-between gap-8 pt-16',
-        isReducedLogo && 'flex-row',
+        'flex flex-col items-center justify-between pt-12 md:pt-16',
+        (isReducedLogo || isSmallDevice) && 'flex-row',
       )}
     >
       <div
         className={cn(
           'pointer-events-none order-last w-full',
-          isReducedLogo && 'relative order-first flex h-6 items-center',
+          (isReducedLogo || isSmallDevice) &&
+            'relative order-first flex h-4 items-center',
         )}
       >
-        <HeaderLogo className={cn(isReducedLogo && 'absolute w-[50rem]')} />
+        {isSmallDevice ?
+          <MobileHeaderLogo />
+        : <DesktopHeaderLogo
+            className={cn(
+              isReducedLogo && 'absolute w-[30rem] lg:w-[40rem] xl:w-[50rem]',
+            )}
+          />
+        }
       </div>
-      <nav className="self-end px-12">
-        <ul className="flex gap-4 font-secondary uppercase">
+      <nav className="self-end px-6 md:px-12">
+        <ul className="flex gap-4 font-secondary uppercase leading-none">
           <li>
             <Link to="/" className="pointer-events-auto">
               Gallery
