@@ -5,8 +5,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        primary: ['Manrope', 'sans-serif'],
-        secondary: ['"Share Tech Mono"', 'monospace'],
+        primary: ['"Share Tech Mono"', 'monospace'],
       },
       colors: {
         primary: '#f5f5f5',

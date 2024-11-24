@@ -28,7 +28,7 @@ export const AboutModal = ({
   }, [isOpen]);
 
   return (
-    <div className="pointer-events-auto grid gap-8 overflow-hidden font-secondary text-sm md:h-60 md:grid-cols-2 md:gap-0 xl:gap-32">
+    <div className="pointer-events-auto grid gap-8 overflow-hidden text-sm md:h-60 md:grid-cols-2 md:gap-0 xl:gap-32">
       <div className="overflow-y-auto px-6 py-4 md:px-12">
         {formatText(bio)}
       </div>

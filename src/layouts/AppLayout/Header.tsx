@@ -16,7 +16,7 @@ export const Header = ({ isReducedLogo, toggleAboutModal }: HeaderProps) => {
   return (
     <header
       className={cn(
-        'flex flex-col items-center justify-between pt-12 md:pt-16',
+        'flex flex-col items-center justify-between pt-12 md:gap-4 md:pt-16',
         (isReducedLogo || isSmallDevice) && 'flex-row',
       )}
     >
@@ -37,7 +37,7 @@ export const Header = ({ isReducedLogo, toggleAboutModal }: HeaderProps) => {
         }
       </div>
       <nav className="self-end px-6 md:px-12">
-        <ul className="flex gap-4 font-secondary uppercase leading-none">
+        <ul className="flex gap-4 uppercase leading-none">
           <li>
             <Link to="/" className="pointer-events-auto">
               Gallery
