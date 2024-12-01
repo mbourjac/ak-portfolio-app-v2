@@ -15,6 +15,7 @@ export const projectFileSchema = z.object({
   mobileUrl: z.string(),
   desktopUrl: z.string(),
   alt: z.string().optional(),
+  height: z.number().optional().default(100),
   aspectRatio: z.number(),
 });
 

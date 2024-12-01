@@ -20,7 +20,13 @@ export const DesktopGallery = ({
   } = useVerticalScroll();
 
   return (
-    <main ref={containerRef} style={{ height: `${String(galleryWidth)}px` }}>
+    <main
+      ref={containerRef}
+      style={{
+        height: `${String(galleryWidth)}px`,
+        width: `${String(galleryWidth)}px`,
+      }}
+    >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden pt-[9.5rem]">
         <ProjectInfo
           title={title}
@@ -33,26 +39,28 @@ export const DesktopGallery = ({
           ref={galleryRef}
           style={{ x: galleryX }}
         >
-          {gallery.map(({ type, filename, desktopUrl, aspectRatio }, index) => (
-            <div
-              key={index}
-              style={{
-                height: `calc(100vh - 9.5rem)`,
-                aspectRatio,
-              }}
-            >
-              {
-                type === 'image' ?
-                  <img src={desktopUrl} alt="" />
-                  // eslint-disable-next-line jsx-a11y/media-has-caption
-                : <video controls className="h-full">
-                    <source src={`/${filename}`} type="video/mp4" />
-                    Your browser does not support HTML5 video.
-                  </video>
+          {gallery.map(
+            ({ type, filename, desktopUrl, aspectRatio, height }, index) => (
+              <div
+                key={index}
+                style={{
+                  height: `calc(((100vh - 9.5rem) * ${String(height)} / 100))`,
+                  aspectRatio,
+                }}
+              >
+                {
+                  type === 'image' ?
+                    <img src={desktopUrl} alt="" />
+                    // eslint-disable-next-line jsx-a11y/media-has-caption
+                  : <video controls className="h-full">
+                      <source src={`/${filename}`} type="video/mp4" />
+                      Your browser does not support HTML5 video.
+                    </video>
 
-              }
-            </div>
-          ))}
+                }
+              </div>
+            ),
+          )}
         </motion.div>
       </div>
     </main>

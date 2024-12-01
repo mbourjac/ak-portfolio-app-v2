@@ -16,7 +16,13 @@ export const DesktopProjects = ({ projects }: DesktopProjectsProps) => {
   } = useVerticalScroll();
 
   return (
-    <main ref={containerRef} style={{ height: `${String(galleryWidth)}px` }}>
+    <main
+      ref={containerRef}
+      style={{
+        height: `${String(galleryWidth)}px`,
+        width: `${String(galleryWidth)}px`,
+      }}
+    >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden pt-[9.5rem]">
         <motion.div
           className="flex flex-row gap-4 px-4"
