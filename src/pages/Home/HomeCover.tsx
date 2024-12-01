@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
 import { useMediaQuery } from '../../hooks/use-media-query';
 import type { BaseProject } from '../../services/project/project.types';
@@ -25,8 +25,16 @@ export const HomeCover = ({
     size: { desktopWidth, mobileWidth, aspectRatio },
   },
 }: HomeCoverProps) => {
+  const navigate = useNavigate();
   const isVerticalDevice = useMediaQuery(`(orientation: portrait)`);
+
   const [showInfo, setShowInfo] = useState(false);
+  const [isDragged, setIsDragged] = useState(false);
+
+  const handleClick = () => {
+    if (isDragged) return;
+    void navigate({ to: '/work/$projectSlug', params: { projectSlug: slug } });
+  };
 
   return (
     <>
@@ -40,14 +48,14 @@ export const HomeCover = ({
             isVerticalDevice ? mobilePosition.zIndex : desktopPosition.zIndex,
           aspectRatio,
         }}
+        drag
+        dragMomentum={false}
+        onDragStart={() => setIsDragged(true)}
+        onDragEnd={() => setIsDragged(false)}
         onHoverStart={() => setShowInfo(true)}
         onHoverEnd={() => setShowInfo(false)}
       >
-        <Link
-          to="/work/$projectSlug"
-          className="relative hover:cursor-none"
-          params={{ projectSlug: slug }}
-        >
+        <button className="relative hover:cursor-none" onClick={handleClick}>
           {videoFilename ?
             // eslint-disable-next-line jsx-a11y/media-has-caption
             <motion.video
@@ -60,13 +68,15 @@ export const HomeCover = ({
               <source src={`/${videoFilename}`} type="video/mp4" />
               Your browser does not support HTML5 video.
             </motion.video>
-          : <motion.img
-              src={isVerticalDevice ? mobileUrl : desktopUrl}
-              alt={title}
-              whileHover={{ filter: 'blur(6px)', opacity: 0.8 }}
-            />
+          : <motion.div whileHover={{ filter: 'blur(6px)', opacity: 0.8 }}>
+              <img
+                src={isVerticalDevice ? mobileUrl : desktopUrl}
+                alt={title}
+                className="pointer-events-none"
+              />
+            </motion.div>
           }
-        </Link>
+        </button>
       </motion.div>
       {showInfo && (
         <HomeCoverInfo
