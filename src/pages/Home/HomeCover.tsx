@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useMediaQuery } from '../../hooks/use-media-query';
 import type { BaseProject } from '../../services/project/project.types';
 import type { HomeCover as HomeCoverType } from '../../services/work/work.types';

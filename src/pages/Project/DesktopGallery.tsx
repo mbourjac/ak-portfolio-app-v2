@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useVerticalScroll } from '../../hooks/use-vertical-scroll';
 import type { Project } from '../../services/project/project.types';
 import { ProjectInfo } from './ProjectInfo';

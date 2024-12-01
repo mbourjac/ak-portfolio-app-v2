@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useScroll, useTransform } from 'framer-motion';
+import { useScroll, useTransform } from 'motion/react';
 import { useElementSize } from './use-element-size';
 import { useWindowSize } from './use-window-size';
 

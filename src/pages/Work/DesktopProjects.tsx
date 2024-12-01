@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useVerticalScroll } from '../../hooks/use-vertical-scroll';
 import type { WorkProject } from '../../services/work/work.types';
 
