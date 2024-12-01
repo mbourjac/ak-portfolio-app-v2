@@ -2,9 +2,9 @@ import groq from 'groq';
 import { SanityRepository } from './sanity.repository';
 
 export class SanityInformationRepository extends SanityRepository {
-  type = 'information';
+  protected readonly type = 'information';
 
-  getInformationProjection = () => groq`{
+  private readonly getInformationProjection = () => groq`{
     bio,
     email,
     instagram,

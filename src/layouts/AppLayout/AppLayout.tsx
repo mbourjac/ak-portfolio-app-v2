@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Outlet, useLocation, useRouteContext } from '@tanstack/react-router';
+import { Seo } from '../../components/Seo';
 import { ModalContext } from '../../context/modal-context';
 import { cn } from '../../lib/tailwind.utils';
 import { AboutModal } from './AboutModal';
@@ -14,7 +15,12 @@ export const AppLayout = () => {
     from: '/_layout',
     select: (context) => context.getInformationQuery,
   });
+  const getSeoQuery = useRouteContext({
+    from: '/_layout',
+    select: (context) => context.getSeoQuery,
+  });
   const { data: information } = useSuspenseQuery(getInformationQuery);
+  const { data: seo } = useSuspenseQuery(getSeoQuery);
 
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
 
@@ -30,6 +36,7 @@ export const AppLayout = () => {
 
   return (
     <>
+      <Seo {...seo} />
       <div
         className={cn(
           'pointer-events-none fixed z-10 flex w-full flex-col gap-8',
