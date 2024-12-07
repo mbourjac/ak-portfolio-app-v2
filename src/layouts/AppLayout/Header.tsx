@@ -1,9 +1,9 @@
-import { Link } from '@tanstack/react-router';
+import { useRouteTransition } from '../../hooks/use-route-transition';
 import { useSmallDevice } from '../../hooks/use-small-device';
 import { cn } from '../../lib/tailwind.utils';
+import type { DefinedRoute } from '../../router/router.types';
 import { DesktopHeaderLogo } from './DesktopHeaderLogo';
 import { MobileHeaderLogo } from './MobileHeaderLogo';
-``;
 
 type HeaderProps = {
   isReducedLogo: boolean;
@@ -12,6 +12,12 @@ type HeaderProps = {
 
 export const Header = ({ isReducedLogo, toggleAboutModal }: HeaderProps) => {
   const isSmallDevice = useSmallDevice();
+  const { handleNavigate, pathname } = useRouteTransition();
+
+  const links: { label: string; to: DefinedRoute }[] = [
+    { label: 'Gallery', to: '/' },
+    { label: 'Work', to: '/work' },
+  ];
 
   return (
     <header
@@ -38,16 +44,18 @@ export const Header = ({ isReducedLogo, toggleAboutModal }: HeaderProps) => {
       </div>
       <nav className="self-end px-6 md:px-12">
         <ul className="flex gap-4 uppercase leading-none">
-          <li>
-            <Link to="/" className="pointer-events-auto">
-              Gallery
-            </Link>
-          </li>
-          <li>
-            <Link to="/work" className="pointer-events-auto">
-              Work
-            </Link>
-          </li>
+          {links.map(({ label, to }) => (
+            <li key={label}>
+              <a
+                href={to}
+                onClick={(event) => handleNavigate(event, { to })}
+                className="pointer-events-auto"
+                aria-current={pathname === to ? 'page' : undefined}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
           <li>
             <button
               onClick={toggleAboutModal}

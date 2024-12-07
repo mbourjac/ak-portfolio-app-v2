@@ -1,5 +1,5 @@
-import { Link } from '@tanstack/react-router';
 import { motion } from 'motion/react';
+import { useRouteTransition } from '../../hooks/use-route-transition';
 import { useVerticalScroll } from '../../hooks/use-vertical-scroll';
 import type { WorkProject } from '../../services/work/work.types';
 
@@ -14,6 +14,7 @@ export const DesktopProjects = ({ projects }: DesktopProjectsProps) => {
     elementWidth: galleryWidth,
     x: galleryX,
   } = useVerticalScroll();
+  const { handleNavigate, scope, variants } = useRouteTransition();
 
   return (
     <main
@@ -23,7 +24,11 @@ export const DesktopProjects = ({ projects }: DesktopProjectsProps) => {
         width: `${String(galleryWidth)}px`,
       }}
     >
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden pt-[9.5rem]">
+      <motion.div
+        ref={scope}
+        className="sticky top-0 flex h-screen items-center overflow-hidden pt-[9.5rem]"
+        {...variants}
+      >
         <motion.div
           className="flex flex-row gap-4 px-4"
           ref={galleryRef}
@@ -40,10 +45,15 @@ export const DesktopProjects = ({ projects }: DesktopProjectsProps) => {
                 size: { height, aspectRatio },
               },
             }) => (
-              <Link
+              <a
                 key={id}
-                to="/work/$projectSlug"
-                params={{ projectSlug: slug }}
+                href={`/work/${slug}`}
+                onClick={(event) =>
+                  handleNavigate(event, {
+                    to: '/work/$projectSlug',
+                    params: { projectSlug: slug },
+                  })
+                }
                 className="flex flex-col gap-2"
                 style={{
                   height: `calc(((100vh - 9.5rem) * ${String(height)} / 100))`,
@@ -54,11 +64,11 @@ export const DesktopProjects = ({ projects }: DesktopProjectsProps) => {
                   <img src={svgTitle} alt={title} className="h-6" />
                 </h2>
                 <img src={desktopUrl} alt={title} />
-              </Link>
+              </a>
             ),
           )}
         </motion.div>
-      </div>
+      </motion.div>
     </main>
   );
 };

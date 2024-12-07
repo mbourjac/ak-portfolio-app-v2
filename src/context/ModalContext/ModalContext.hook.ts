@@ -1,8 +1,5 @@
-import { useContext, createContext } from 'react';
-
-export const ModalContext = createContext<{ isOpen: boolean } | undefined>(
-  undefined,
-);
+import { useContext } from 'react';
+import { ModalContext } from './ModalContext';
 
 export const useModalContext = () => {
   const modalContext = useContext(ModalContext);

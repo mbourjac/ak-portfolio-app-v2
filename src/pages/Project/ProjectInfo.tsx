@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowDownIcon } from '../../components/ArrowDownIcon';
-import { useModalContext } from '../../context/modal-context';
+import { useModalContext } from '../../context/ModalContext/ModalContext.hook';
 import { formatText } from '../../helpers/format-text';
 import { useElementSize } from '../../hooks/use-element-size';
 import { cn } from '../../lib/tailwind.utils';

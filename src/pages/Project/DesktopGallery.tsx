@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { useRouteTransition } from '../../hooks/use-route-transition';
 import { useVerticalScroll } from '../../hooks/use-vertical-scroll';
 import type { Project } from '../../services/project/project.types';
 import { ProjectInfo } from './ProjectInfo';
@@ -18,6 +19,7 @@ export const DesktopGallery = ({
     elementWidth: galleryWidth,
     x: galleryX,
   } = useVerticalScroll();
+  const { scope, variants } = useRouteTransition();
 
   return (
     <main
@@ -27,7 +29,11 @@ export const DesktopGallery = ({
         width: `${String(galleryWidth)}px`,
       }}
     >
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden pt-[9.5rem]">
+      <motion.div
+        ref={scope}
+        className="sticky top-0 flex h-screen items-center overflow-hidden pt-[9.5rem]"
+        {...variants}
+      >
         <ProjectInfo
           title={title}
           date={date}
@@ -62,7 +68,7 @@ export const DesktopGallery = ({
             ),
           )}
         </motion.div>
-      </div>
+      </motion.div>
     </main>
   );
 };

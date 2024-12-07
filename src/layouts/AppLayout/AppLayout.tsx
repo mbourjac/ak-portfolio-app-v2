@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Outlet, useLocation, useRouteContext } from '@tanstack/react-router';
 import { Seo } from '../../components/Seo';
-import { ModalContext } from '../../context/modal-context';
+import { ModalContext } from '../../context/ModalContext/ModalContext';
+import { RouteTransitionContextProvider } from '../../context/RouteTransitionContext/RouteTransitionContextProvider';
 import { cn } from '../../lib/tailwind.utils';
 import { AboutModal } from './AboutModal';
 import { Header } from './Header';
@@ -35,7 +36,7 @@ export const AppLayout = () => {
   }, [pathname]);
 
   return (
-    <>
+    <RouteTransitionContextProvider>
       <Seo {...seo} />
       <div
         className={cn(
@@ -59,6 +60,6 @@ export const AppLayout = () => {
       <ModalContext.Provider value={{ isOpen: isAboutModalOpen }}>
         <Outlet />
       </ModalContext.Provider>
-    </>
+    </RouteTransitionContextProvider>
   );
 };

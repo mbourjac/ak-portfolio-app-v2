@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from '@tanstack/react-router';
 import { motion } from 'motion/react';
 import { useMediaQuery } from '../../hooks/use-media-query';
+import { useRouteTransition } from '../../hooks/use-route-transition';
 import type { BaseProject } from '../../services/project/project.types';
 import type { HomeCover as HomeCoverType } from '../../services/work/work.types';
 import { HomeCoverInfo } from './HomeCoverInfo';
@@ -25,20 +25,17 @@ export const HomeCover = ({
     size: { desktopWidth, mobileWidth, aspectRatio },
   },
 }: HomeCoverProps) => {
-  const navigate = useNavigate();
   const isVerticalDevice = useMediaQuery(`(orientation: portrait)`);
+  const { scope, handleNavigate, variants } = useRouteTransition();
 
   const [showInfo, setShowInfo] = useState(false);
   const [isDragged, setIsDragged] = useState(false);
 
-  const handleClick = () => {
-    if (isDragged) return;
-    void navigate({ to: '/work/$projectSlug', params: { projectSlug: slug } });
-  };
-
   return (
     <>
       <motion.div
+        ref={scope}
+        {...variants}
         className="absolute w-fit"
         style={{
           left: `${String(isVerticalDevice ? mobilePosition.left : desktopPosition.left)}%`,
@@ -55,7 +52,17 @@ export const HomeCover = ({
         onHoverStart={() => setShowInfo(true)}
         onHoverEnd={() => setShowInfo(false)}
       >
-        <button className="relative hover:cursor-none" onClick={handleClick}>
+        <button
+          className="relative hover:cursor-none"
+          onClick={(event) => {
+            if (isDragged) return;
+
+            handleNavigate(event, {
+              to: '/work/$projectSlug',
+              params: { projectSlug: slug },
+            });
+          }}
+        >
           {videoFilename ?
             // eslint-disable-next-line jsx-a11y/media-has-caption
             <motion.video
