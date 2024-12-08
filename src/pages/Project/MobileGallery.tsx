@@ -11,7 +11,7 @@ export const MobileGallery = ({
   description,
 }: MobileGalleryProps) => {
   return (
-    <main className="flex flex-col gap-8 p-6 pt-[9rem]">
+    <main className="flex flex-col gap-8 p-4 pt-[9rem]">
       <div className="flex flex-col gap-4">
         <h1 className="text-2xl font-semibold">{title}</h1>
         <div className="flex flex-col gap-2">
@@ -35,7 +35,7 @@ export const MobileGallery = ({
           }
         </div>
       ))}
-      <div className="pt-8">{formatText(description)}</div>
+      <div>{formatText(description)}</div>
     </main>
   );
 };
