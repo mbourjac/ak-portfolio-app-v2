@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { motion } from 'motion/react';
 import { formatText } from '../../helpers/format-text';
 import { useSmallDevice } from '../../hooks/use-small-device';
 import type { Information } from '../../services/information/information.types';
@@ -32,8 +33,27 @@ export const AboutModal = ({
   }, [isOpen]);
 
   return (
-    <div className="fixed top-0 z-40 h-dvh bg-secondary/75 pt-24 backdrop-blur-md md:h-auto">
-      <div className="flex h-[calc(100vh-96px)] flex-col gap-8 md:h-auto">
+    <motion.div
+      initial={{ y: '-100%' }}
+      animate={{ y: '0%' }}
+      exit={{
+        y: '-100%',
+      }}
+      transition={{ duration: 0.6, ease: [0.4, 0, 0, 1] }}
+      className="fixed top-0 z-40 h-dvh bg-secondary/75 pt-24 backdrop-blur-md md:h-auto"
+    >
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: 1,
+          transition: {
+            delay: 0.2,
+          },
+        }}
+        exit={{ opacity: 0 }}
+        transition={{ ease: [0.39, 0.24, 0.3, 1] }}
+        className="flex h-[calc(100vh-96px)] flex-col gap-8 md:h-auto"
+      >
         {!isSmallDevice && <DesktopLogo />}
         <div className="pointer-events-auto grid gap-8 overflow-hidden text-sm md:h-60 md:grid-cols-2 md:gap-0 xl:gap-32">
           <div className="overflow-y-auto px-6 py-4 md:px-12">
@@ -70,7 +90,7 @@ export const AboutModal = ({
             </button>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
