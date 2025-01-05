@@ -40,7 +40,7 @@ export const AboutModal = ({
         y: '-100%',
       }}
       transition={{ duration: 0.6, ease: [0.4, 0, 0, 1] }}
-      className="fixed top-0 z-40 h-dvh bg-secondary/75 pt-24 backdrop-blur-md md:h-auto"
+      className="pointer-events-auto fixed top-0 z-40 h-dvh bg-secondary/75 pt-24 backdrop-blur-md md:h-auto"
     >
       <motion.div
         initial={{ opacity: 0 }}
@@ -55,7 +55,7 @@ export const AboutModal = ({
         className="flex h-[calc(100vh-96px)] flex-col gap-8 md:h-auto"
       >
         {!isSmallDevice && <DesktopLogo />}
-        <div className="pointer-events-auto grid gap-8 overflow-hidden text-sm md:h-60 md:grid-cols-2 md:gap-0 xl:gap-32">
+        <div className="grid gap-8 overflow-hidden text-sm md:h-60 md:grid-cols-2 md:gap-0 xl:gap-32">
           <div className="overflow-y-auto px-6 py-4 md:px-12">
             {formatText(bio)}
           </div>
