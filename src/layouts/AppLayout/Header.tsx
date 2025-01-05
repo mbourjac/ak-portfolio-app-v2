@@ -1,6 +1,6 @@
 import type { Dispatch } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { useRouteContext } from '@tanstack/react-router';
+import { Link, useRouteContext } from '@tanstack/react-router';
 import { AnimatePresence, motion } from 'motion/react';
 import { useLoaderContext } from '../../context/LoaderContext/LoaderContext.hook';
 import { useRouteTransition } from '../../hooks/use-route-transition';
@@ -56,9 +56,16 @@ export const Header = ({
     >
       <div className="flex h-4 items-center">
         {isSmallDevice ?
-          <MobileLogo />
+          <Link to="/" className="pointer-events-auto">
+            <MobileLogo />
+          </Link>
         : !isLogoHidden && (
-            <DesktopLogo className="absolute w-[30rem] lg:w-[40rem] xl:w-[50rem]" />
+            <Link
+              to="/"
+              className="pointer-events-auto absolute w-[30rem] lg:w-[40rem] xl:w-[50rem]"
+            >
+              <DesktopLogo />
+            </Link>
           )
         }
       </div>
