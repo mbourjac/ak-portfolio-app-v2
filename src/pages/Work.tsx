@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useRouteContext } from '@tanstack/react-router';
 import { motion } from 'motion/react';
@@ -15,6 +16,8 @@ export const Work = () => {
 
   const { handleNavigate, scope, variants } = useRouteTransition();
   const isSmallDevice = useSmallDevice();
+
+  const [hoveredProjectId, setHoveredProjectId] = useState<string | null>(null);
 
   return (
     <main>
@@ -44,12 +47,14 @@ export const Work = () => {
                     params: { projectSlug: slug },
                   })
                 }
-                className="flex shrink-0 flex-col gap-2"
+                className="flex h-fit shrink-0 flex-col gap-2"
+                onMouseEnter={() => setHoveredProjectId(id)}
+                onMouseLeave={() => setHoveredProjectId(null)}
               >
                 <h2>
                   <img src={svgTitle} alt={title} className="h-6" />
                 </h2>
-                <img
+                <motion.img
                   src={desktopUrl}
                   alt={title}
                   style={{
@@ -58,6 +63,14 @@ export const Work = () => {
                         `calc(((100vh - 9.5rem) * ${String(height)} / 100))`
                       ),
                     aspectRatio,
+                  }}
+                  animate={{
+                    filter: hoveredProjectId === id ? 'blur(6px)' : 'blur(0px)',
+                    opacity: hoveredProjectId === id ? 0.8 : 1,
+                    transition: {
+                      duration: 0.2,
+                      ease: [0.12, 0, 0.39, 0],
+                    },
                   }}
                 />
               </a>
