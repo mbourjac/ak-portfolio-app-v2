@@ -7,7 +7,7 @@ import {
 import { useAnimate } from 'motion/react';
 import { useRouteTransitionContext } from '../context/RouteTransitionContext/RouteTransitionContext.hook';
 
-export const useRouteTransition = () => {
+export const useRouteTransition = (delay?: number) => {
   const navigate = useNavigate();
   const pathname = useLocation({
     select: (location) => location.pathname,
@@ -57,10 +57,11 @@ export const useRouteTransition = () => {
           duration: 0.6,
           ease: [0.165, 0.84, 0.44, 1],
           type: 'tween',
+          delay,
         },
       );
     }
-  }, [isRouteTransition, animate, scope]);
+  }, [isRouteTransition, animate, scope, delay]);
 
   return { handleNavigate, pathname, scope, variants };
 };
