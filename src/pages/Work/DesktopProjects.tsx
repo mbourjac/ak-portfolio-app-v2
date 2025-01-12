@@ -1,32 +1,40 @@
 import { useState } from 'react';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { useRouteContext } from '@tanstack/react-router';
 import { motion } from 'motion/react';
-import { useRouteTransition } from '../hooks/use-route-transition';
-import { useSmallDevice } from '../hooks/use-small-device';
+import { useRouteTransition } from '../../hooks/use-route-transition';
+import { useVerticalScroll } from '../../hooks/use-vertical-scroll';
+import type { WorkProject } from '../../services/work/work.types';
+type DesktopProjectsProps = {
+  projects: WorkProject[];
+};
 
-export const Work = () => {
-  const getWorkQuery = useRouteContext({
-    from: '/_layout/work/',
-    select: (context) => context.getWorkQuery,
-  });
+export const DesktopProjects = ({ projects }: DesktopProjectsProps) => {
   const {
-    data: { projects },
-  } = useSuspenseQuery(getWorkQuery);
-
+    containerRef,
+    elementRef: galleryRef,
+    elementWidth: galleryWidth,
+    x: galleryX,
+  } = useVerticalScroll();
   const { handleNavigate, scope, variants } = useRouteTransition();
-  const isSmallDevice = useSmallDevice();
 
   const [hoveredProjectId, setHoveredProjectId] = useState<string | null>(null);
 
   return (
-    <main>
+    <main
+      ref={containerRef}
+      style={{
+        height: `${String(galleryWidth)}px`,
+      }}
+    >
       <motion.div
         ref={scope}
-        className="flex items-center pt-[9.5rem] md:sticky md:top-0 md:h-screen md:overflow-hidden"
+        className="sticky top-0 flex h-screen items-center overflow-hidden pt-[9.5rem]"
         {...variants}
       >
-        <div className="flex flex-col gap-8 p-4 md:flex-row md:gap-4 md:overflow-x-auto md:py-0">
+        <motion.div
+          className="flex flex-row gap-4 px-4"
+          ref={galleryRef}
+          style={{ x: galleryX }}
+        >
           {projects.map(
             ({
               id,
@@ -50,6 +58,10 @@ export const Work = () => {
                 className="flex h-fit shrink-0 flex-col gap-2"
                 onMouseEnter={() => setHoveredProjectId(id)}
                 onMouseLeave={() => setHoveredProjectId(null)}
+                style={{
+                  height: `calc(((100vh - 9.5rem) * ${String(height)} / 100))`,
+                  aspectRatio,
+                }}
               >
                 <h2>
                   <img src={svgTitle} alt={title} className="h-6" />
@@ -57,13 +69,6 @@ export const Work = () => {
                 <motion.img
                   src={desktopUrl}
                   alt={title}
-                  style={{
-                    height:
-                      isSmallDevice ? 'auto' : (
-                        `calc(((100vh - 9.5rem) * ${String(height)} / 100))`
-                      ),
-                    aspectRatio,
-                  }}
                   animate={{
                     filter: hoveredProjectId === id ? 'blur(6px)' : 'blur(0px)',
                     opacity: hoveredProjectId === id ? 0.8 : 1,
@@ -76,7 +81,7 @@ export const Work = () => {
               </a>
             ),
           )}
-        </div>
+        </motion.div>
       </motion.div>
     </main>
   );

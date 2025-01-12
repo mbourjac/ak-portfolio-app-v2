@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { useRouteTransition } from '../../hooks/use-route-transition';
+import { useVerticalScroll } from '../../hooks/use-vertical-scroll';
 import type { Project } from '../../services/project/project.types';
 import { ProjectInfo } from './ProjectInfo';
 
@@ -13,9 +14,21 @@ export const DesktopGallery = ({
   description,
 }: DesktopGalleryProps) => {
   const { scope, variants } = useRouteTransition();
+  const {
+    containerRef,
+    elementRef: galleryRef,
+    elementWidth: galleryWidth,
+    x: galleryX,
+  } = useVerticalScroll();
 
   return (
-    <main>
+    <main
+      ref={containerRef}
+      style={{
+        height: `${String(galleryWidth)}px`,
+        width: `${String(galleryWidth)}px`,
+      }}
+    >
       <motion.div
         ref={scope}
         className="sticky top-0 flex h-screen items-center overflow-hidden pt-[9.5rem]"
@@ -27,7 +40,11 @@ export const DesktopGallery = ({
           medium={medium}
           description={description}
         />
-        <div className="flex flex-row gap-4 overflow-x-auto pl-80 pr-4">
+        <motion.div
+          className="flex flex-row gap-4 pl-80 pr-4"
+          ref={galleryRef}
+          style={{ x: galleryX }}
+        >
           {gallery.map(
             ({ type, filename, desktopUrl, aspectRatio, height }, index) => (
               <div
@@ -50,7 +67,7 @@ export const DesktopGallery = ({
               </div>
             ),
           )}
-        </div>
+        </motion.div>
       </motion.div>
     </main>
   );
